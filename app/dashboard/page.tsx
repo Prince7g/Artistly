@@ -1,44 +1,48 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   const [artists, setArtists] = useState<any[]>([]);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("artists") || "[]");
+    const dummyArtists = [
+      {
+        id: 1,
+        name: "A.R. Rahman",
+        bio: "Legendary composer and playback singer.",
+        category: ["Singer"],
+        languages: ["Hindi", "Tamil", "English"],
+        fee: "₹5L+",
+        location: "Chennai",
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/97/A._R._Rahman_2017.jpg"
+      },
+      {
+        id: 2,
+        name: "Sonu Sood",
+        bio: "Actor and motivational speaker.",
+        category: ["Speaker"],
+        languages: ["Hindi", "Punjabi", "English"],
+        fee: "₹3L - ₹5L",
+        location: "Mumbai",
+        image: "https://upload.wikimedia.org/wikipedia/commons/4/42/Sonu_Sood_2022.jpg"
+      }
+    ];
 
-    if (stored.length === 0) {
-      const dummy = [
-        {
-          id: 1,
-          name: "A.R. Rahman",
-          bio: "Legendary composer and playback singer.",
-          category: ["Singer"],
-          languages: ["Hindi", "Tamil", "English"],
-          fee: "₹5L+",
-          location: "Chennai",
-          image: "https://upload.wikimedia.org/wikipedia/commons/9/97/A._R._Rahman_2017.jpg"
-        },
-        {
-          id: 2,
-          name: "Sonu Sood",
-          bio: "Actor and motivational speaker.",
-          category: ["Speaker"],
-          languages: ["Hindi", "Punjabi", "English"],
-          fee: "₹3L - ₹5L",
-          location: "Mumbai",
-          image: "https://upload.wikimedia.org/wikipedia/commons/4/42/Sonu_Sood_2022.jpg"
-        }
-      ];
-      localStorage.setItem("artists", JSON.stringify(dummy));
-      setArtists(dummy);
-    } else {
-      setArtists(stored);
+    const onboarded = JSON.parse(localStorage.getItem("artists") || "[]");
+
+    // Avoid duplicate ID conflicts
+    const merged = [...dummyArtists];
+    for (const artist of onboarded) {
+      if (!merged.some(a => a.id === artist.id)) {
+        merged.push(artist);
+      }
     }
+
+    setArtists(merged);
   }, []);
 
   return (
@@ -69,7 +73,7 @@ export default function DashboardPage() {
                     />
                   </td>
                   <td className="p-2 border">{artist.name}</td>
-                  <td className="p-2 border">{artist.category.join(", ")}</td>
+                  <td className="p-2 border">{artist.category.join(', ')}</td>
                   <td className="p-2 border">{artist.location}</td>
                   <td className="p-2 border">{artist.fee}</td>
                   <td className="p-2 border">
