@@ -11,23 +11,22 @@ export default function DashboardPage() {
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("artists") || "[]");
 
-    // Inject 2 default dummy artists if none exist
     if (stored.length === 0) {
       const dummy = [
         {
-          id: Date.now(),
+          id: 1,
           name: "A.R. Rahman",
-          bio: "Legendary music composer and playback singer with global recognition.",
+          bio: "Legendary composer and playback singer.",
           category: ["Singer"],
-          languages: ["Tamil", "Hindi", "English"],
+          languages: ["Hindi", "Tamil", "English"],
           fee: "₹5L+",
           location: "Chennai",
           image: "https://upload.wikimedia.org/wikipedia/commons/9/97/A._R._Rahman_2017.jpg"
         },
         {
-          id: Date.now() + 1,
+          id: 2,
           name: "Sonu Sood",
-          bio: "Bollywood actor and motivational speaker known for his philanthropic work.",
+          bio: "Actor and motivational speaker.",
           category: ["Speaker"],
           languages: ["Hindi", "Punjabi", "English"],
           fee: "₹3L - ₹5L",
@@ -65,8 +64,8 @@ export default function DashboardPage() {
                   <td className="p-2 border">
                     <img
                       src={artist.image}
-                      className="w-16 h-16 object-cover rounded"
                       alt={artist.name}
+                      className="w-16 h-16 object-cover rounded"
                     />
                   </td>
                   <td className="p-2 border">{artist.name}</td>
