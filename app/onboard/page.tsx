@@ -1,3 +1,6 @@
+
+  );
+      }
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -13,8 +16,7 @@ const schema = yup.object().shape({
   category: yup.array().min(1),
   languages: yup.array().min(1),
   fee: yup.string().required(),
-  location: yup.string().required(),
-  image: yup.string().url("Must be a valid image URL").required()
+  location: yup.string().required()
 });
 
 const categories = ["Singer", "Dancer", "Speaker", "DJ"];
@@ -30,11 +32,20 @@ export default function OnboardPage() {
   const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = (data: any) => {
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const file = fileInput?.files?.[0];
+
+    let imageUrl = "";
+    if (file) {
+      imageUrl = URL.createObjectURL(file);
+    }
+
     const existing = JSON.parse(localStorage.getItem("artists") || "[]");
 
     const newArtist = {
       id: Date.now(),
-      ...data
+      ...data,
+      image: imageUrl
     };
 
     localStorage.setItem("artists", JSON.stringify([...existing, newArtist]));
@@ -92,8 +103,7 @@ export default function OnboardPage() {
           <input {...register("location")} placeholder="Location" className="w-full border p-2 rounded" />
           {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
 
-          <input {...register("image")} placeholder="Paste profile image URL" className="w-full border p-2 rounded" />
-          {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+          <input type="file" accept="image/*" className="w-full" />
 
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
             Submit
@@ -103,4 +113,4 @@ export default function OnboardPage() {
       <Footer />
     </>
   );
-      }
+         }
