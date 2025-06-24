@@ -5,4 +5,4 @@ export default function CategoryCard({ title, image }: { title: string; image: s
       <h3 className="text-lg font-semibold p-2 text-center">{title}</h3>
     </div>
   );
-  
+}
