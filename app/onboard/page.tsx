@@ -40,27 +40,29 @@ export default function OnboardPage() {
   });
 
   const onSubmit = (data: any) => {
-    console.log("Submitted Artist Data:", data);
-    alert("Artist submitted successfully. Check console for details.");
+    console.log("Submitted Artist:", data);
+    alert("Form submitted. Check console.");
   };
 
   return (
     <>
       <Header />
       <main className="p-6 max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Artist Onboarding Form</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <h1 className="text-2xl font-bold mb-6">Become an Artist</h1>
 
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Name */}
           <input
-            placeholder="Full Name"
             {...register("name")}
+            placeholder="Full Name"
             className="w-full p-2 border rounded"
           />
           {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
 
+          {/* Bio */}
           <textarea
-            placeholder="Short Bio"
             {...register("bio")}
+            placeholder="Short Bio"
             className="w-full p-2 border rounded"
           />
           {errors.bio && <p className="text-red-500 text-sm">{errors.bio.message}</p>}
@@ -142,20 +144,21 @@ export default function OnboardPage() {
 
           {/* City */}
           <input
-            placeholder="City"
             {...register("location")}
+            placeholder="City"
             className="w-full p-2 border rounded"
           />
           {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
 
-          {/* Image URL */}
+          {/* Profile Image (optional) */}
           <input
-            placeholder="Profile Image URL (Optional)"
             {...register("image")}
+            placeholder="Profile Image URL (optional)"
             className="w-full p-2 border rounded"
           />
           {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
 
+          {/* Submit */}
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
