@@ -18,7 +18,7 @@ export default function DashboardPage() {
         languages: ["Hindi", "Tamil", "English"],
         fee: "₹5L+",
         location: "Chennai",
-        image: "https://upload.wikimedia.org/wikipedia/commons/9/97/A._R._Rahman_2017.jpg"
+        image: "https://i.imgur.com/FwbzWDb.jpg"
       },
       {
         id: 2,
@@ -28,13 +28,12 @@ export default function DashboardPage() {
         languages: ["Hindi", "Punjabi", "English"],
         fee: "₹3L - ₹5L",
         location: "Mumbai",
-        image: "https://upload.wikimedia.org/wikipedia/commons/4/42/Sonu_Sood_2022.jpg"
+        image: "https://i.imgur.com/V0iAn1K.jpg"
       }
     ];
 
     const onboarded = JSON.parse(localStorage.getItem("artists") || "[]");
 
-    // Avoid duplicate ID conflicts
     const merged = [...dummyArtists];
     for (const artist of onboarded) {
       if (!merged.some(a => a.id === artist.id)) {
@@ -66,11 +65,15 @@ export default function DashboardPage() {
               {artists.map((artist) => (
                 <tr key={artist.id}>
                   <td className="p-2 border">
-                    <img
-                      src={artist.image}
-                      alt={artist.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
+                    {artist.image ? (
+                      <img
+                        src={artist.image}
+                        alt={artist.name}
+                        className="w-16 h-16 object-cover rounded border"
+                      />
+                    ) : (
+                      <span className="text-gray-400">No Image</span>
+                    )}
                   </td>
                   <td className="p-2 border">{artist.name}</td>
                   <td className="p-2 border">{artist.category.join(', ')}</td>
