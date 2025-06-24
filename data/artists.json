@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ariana Melody",
+    "category": "Singers",
+    "location": "Mumbai",
+    "price": 15000
+  },
+  {
+    "name": "DJ Spark",
+    "category": "DJs",
+    "location": "Delhi",
+    "price": 20000
+  },
+  {
+    "name": "Rhythm Riya",
+    "category": "Dancers",
+    "location": "Bangalore",
+    "price": 18000
+  },
+  {
+    "name": "Voice Viraj",
+    "category": "Speakers",
+    "location": "Pune",
+    "price": 10000
+  }
+]
