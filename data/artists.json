@@ -1,26 +1,22 @@
 [
   {
-    "name": "Ariana Melody",
-    "category": "Singers",
+    "id": 1,
+    "name": "A.R. Rahman",
+    "bio": "Legendary composer and playback singer.",
+    "category": ["Singer"],
+    "languages": ["Hindi", "Tamil", "English"],
+    "fee": "₹5L+",
+    "location": "Chennai",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/9/97/A._R._Rahman_2017.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Sonu Sood",
+    "bio": "Actor and motivational speaker.",
+    "category": ["Speaker"],
+    "languages": ["Hindi", "Punjabi", "English"],
+    "fee": "₹3L - ₹5L",
     "location": "Mumbai",
-    "price": 15000
-  },
-  {
-    "name": "DJ Spark",
-    "category": "DJs",
-    "location": "Delhi",
-    "price": 20000
-  },
-  {
-    "name": "Rhythm Riya",
-    "category": "Dancers",
-    "location": "Bangalore",
-    "price": 18000
-  },
-  {
-    "name": "Voice Viraj",
-    "category": "Speakers",
-    "location": "Pune",
-    "price": 10000
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/42/Sonu_Sood_2022.jpg"
   }
 ]
