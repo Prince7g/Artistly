@@ -5,163 +5,150 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useState } from "react";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   bio: yup.string().required("Bio is required"),
-  categories: yup.array().min(1, "Select at least one category"),
+  category: yup.array().min(1, "Select at least one category"),
   languages: yup.array().min(1, "Select at least one language"),
-  feeRange: yup.string().required("Fee range is required"),
-  location: yup.string().required("City is required"),
-  image: yup.string().url("Enter a valid image URL").notRequired(),
+  fee: yup.string().required("Fee is required"),
+  location: yup.string().required("Location is required")
 });
 
-const categoryOptions = ["Singers", "Dancers", "DJs", "Speakers"];
-const languageOptions = ["English", "Hindi", "Marathi", "Punjabi", "Tamil"];
-const feeRanges = [
-  "₹5,000 - ₹10,000",
-  "₹10,000 - ₹20,000",
-  "₹20,000 - ₹50,000",
-  "₹50,000+"
-];
+const categories = ["Singer", "Dancer", "Speaker", "DJ"];
+const languages = ["English", "Hindi", "Punjabi", "Tamil"];
+const feeOptions = ["₹50K - ₹1L", "₹1L - ₹3L", "₹3L - ₹5L", "₹5L+"];
 
 export default function OnboardPage() {
   const {
     register,
-    control,
     handleSubmit,
+    control,
+    reset,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      categories: [],
+      category: [],
       languages: []
     }
   });
 
+  const [submitted, setSubmitted] = useState(false);
+
   const onSubmit = (data: any) => {
-    console.log("Submitted Artist:", data);
-    alert("Form submitted. Check console.");
+    console.log("Submitted Data:", data);
+    setSubmitted(true);
+    reset();
   };
 
   return (
     <>
       <Header />
-      <main className="p-6 max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Become an Artist</h1>
+      <main className="max-w-3xl mx-auto p-6">
+        <h2 className="text-2xl font-bold mb-6">Artist Onboarding</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        {submitted && (
+          <div className="bg-green-100 text-green-800 p-4 rounded mb-6">
+            Form submitted successfully!
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-6 rounded shadow">
           {/* Name */}
-          <input
-            {...register("name")}
-            placeholder="Full Name"
-            className="w-full p-2 border rounded"
-          />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+          <div>
+            <label className="block font-semibold">Name</label>
+            <input
+              {...register("name")}
+              className="w-full border p-2 rounded mt-1"
+              placeholder="Enter artist name"
+            />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+          </div>
 
           {/* Bio */}
-          <textarea
-            {...register("bio")}
-            placeholder="Short Bio"
-            className="w-full p-2 border rounded"
-          />
-          {errors.bio && <p className="text-red-500 text-sm">{errors.bio.message}</p>}
-
-          {/* Categories */}
           <div>
-            <label className="block font-medium mb-1">Select Categories</label>
-            <Controller
-              name="categories"
-              control={control}
-              render={({ field }) => (
-                <div className="grid grid-cols-2 gap-2">
-                  {categoryOptions.map((cat) => (
-                    <label key={cat} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        value={cat}
-                        checked={field.value.includes(cat)}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          const value = e.target.value;
-                          field.onChange(
-                            checked
-                              ? [...field.value, value]
-                              : field.value.filter((v) => v !== value)
-                          );
-                        }}
-                      />
-                      {cat}
-                    </label>
-                  ))}
-                </div>
-              )}
+            <label className="block font-semibold">Bio</label>
+            <textarea
+              {...register("bio")}
+              className="w-full border p-2 rounded mt-1"
+              rows={4}
+              placeholder="Enter a short bio"
             />
-            {errors.categories && <p className="text-red-500 text-sm">{errors.categories.message}</p>}
+            {errors.bio && <p className="text-red-500 text-sm">{errors.bio.message}</p>}
+          </div>
+
+          {/* Category */}
+          <div>
+            <label className="block font-semibold mb-1">Category</label>
+            {categories.map((cat) => (
+              <label key={cat} className="block">
+                <input
+                  type="checkbox"
+                  value={cat}
+                  {...register("category")}
+                  className="mr-2"
+                />
+                {cat}
+              </label>
+            ))}
+            {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
           </div>
 
           {/* Languages */}
           <div>
-            <label className="block font-medium mb-1">Languages Spoken</label>
-            <Controller
-              name="languages"
-              control={control}
-              render={({ field }) => (
-                <div className="grid grid-cols-2 gap-2">
-                  {languageOptions.map((lang) => (
-                    <label key={lang} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        value={lang}
-                        checked={field.value.includes(lang)}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          const value = e.target.value;
-                          field.onChange(
-                            checked
-                              ? [...field.value, value]
-                              : field.value.filter((v) => v !== value)
-                          );
-                        }}
-                      />
-                      {lang}
-                    </label>
-                  ))}
-                </div>
-              )}
-            />
-            {errors.languages && <p className="text-red-500 text-sm">{errors.languages.message}</p>}
+            <label className="block font-semibold mb-1">Languages Spoken</label>
+            {languages.map((lang) => (
+              <label key={lang} className="block">
+                <input
+                  type="checkbox"
+                  value={lang}
+                  {...register("languages")}
+                  className="mr-2"
+                />
+                {lang}
+              </label>
+            ))}
+            {errors.languages && (
+              <p className="text-red-500 text-sm">{errors.languages.message}</p>
+            )}
           </div>
 
-          {/* Fee Range */}
-          <select {...register("feeRange")} className="w-full p-2 border rounded">
-            <option value="">Select Fee Range</option>
-            {feeRanges.map((fee) => (
-              <option key={fee} value={fee}>{fee}</option>
-            ))}
-          </select>
-          {errors.feeRange && <p className="text-red-500 text-sm">{errors.feeRange.message}</p>}
+          {/* Fee */}
+          <div>
+            <label className="block font-semibold mb-1">Fee Range</label>
+            <select {...register("fee")} className="w-full border p-2 rounded">
+              <option value="">Select fee range</option>
+              {feeOptions.map((fee) => (
+                <option key={fee} value={fee}>
+                  {fee}
+                </option>
+              ))}
+            </select>
+            {errors.fee && <p className="text-red-500 text-sm">{errors.fee.message}</p>}
+          </div>
 
-          {/* City */}
-          <input
-            {...register("location")}
-            placeholder="City"
-            className="w-full p-2 border rounded"
-          />
-          {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
+          {/* Image Upload */}
+          <div>
+            <label className="block font-semibold mb-1">Profile Image (Optional)</label>
+            <input type="file" accept="image/*" className="w-full" />
+          </div>
 
-          {/* Profile Image (optional) */}
-          <input
-            {...register("image")}
-            placeholder="Profile Image URL (optional)"
-            className="w-full p-2 border rounded"
-          />
-          {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+          {/* Location */}
+          <div>
+            <label className="block font-semibold">Location</label>
+            <input
+              {...register("location")}
+              className="w-full border p-2 rounded mt-1"
+              placeholder="Enter city or area"
+            />
+            {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
+          </div>
 
-          {/* Submit */}
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
           >
             Submit
           </button>
@@ -170,4 +157,4 @@ export default function OnboardPage() {
       <Footer />
     </>
   );
-    }
+          }
